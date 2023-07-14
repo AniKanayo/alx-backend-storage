@@ -1,11 +1,11 @@
--- Select bands where style is 'Glam rock' and calculate their lifespan
+-- The SQL query selects band names and computes their lifespan, filtering for bands with Glam rock as main style
 SELECT 
-  band_name, -- The 'band_name' column
-  IF(split IS NOT NULL, split, 2022) - formed AS lifespan -- The 'lifespan' column representing the lifespan of the band
+  band_name, -- 'band_name' column for the name of the band
+  IF(split IS NOT NULL, split, 2022) - formed AS lifespan -- 'lifespan' column, lifespan of the band in years
 FROM 
   metal_bands
 WHERE 
-  style = 'Glam rock'  -- Filter the bands where style is 'Glam rock'
+  style = 'Glam rock'  -- We only want bands with Glam rock as their main style
 ORDER BY 
-  lifespan DESC -- Order the results by the lifespan in descending order
+  lifespan DESC -- We want the bands ranked by their longevity, in descending order
 ;
