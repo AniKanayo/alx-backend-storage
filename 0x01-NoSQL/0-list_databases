@@ -1,5 +1,5 @@
 // A script that connects to MongoDB and lists all databases.
-#!/bin/bash
-mongo <<EOF
-show dbs
-EOF
+db.adminCommand('listDatabases').databases.forEach(db => {
+    print(`${db.name.padEnd(15)} ${db.sizeOnDisk / (1024 * 1024 * 1024)} GB`);
+});
+print('bye');
