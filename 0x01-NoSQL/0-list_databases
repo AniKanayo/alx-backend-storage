@@ -1,19 +1,5 @@
-//A script that connects to MongoDB and lists all databases.
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb';
-
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  
-  db.admin().listDatabases(function(err, result) {
-    if (err) throw err;
-    
-    console.log("Databases:");
-    
-    result.databases.forEach(db => {
-      console.log(" - " + db.name);
-    });
-    
-    db.close();
-  });
-});
+// A script that connects to MongoDB and lists all databases.
+#!/bin/bash
+mongo <<EOF
+show dbs
+EOF
