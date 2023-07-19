@@ -4,6 +4,7 @@
 This module provides a function to list all documents in a MongoDB collection.
 """
 
+
 def list_all(mongo_collection):
     """
     Lists all documents in the given MongoDB collection.
@@ -21,6 +22,7 @@ def list_all(mongo_collection):
         document_str = f"[{document['_id']}] {document['name']}"
         documents.append(document_str)
     return documents
+
 
 if __name__ == "__main__":
     # Test the function
