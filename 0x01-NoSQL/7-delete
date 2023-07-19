@@ -1,0 +1,6 @@
+// A script that deletes all documents with name="Holberton school" in the collection school
+conn = new Mongo();
+db = conn.getDB(db_name);
+
+var result = db.school.deleteMany({ "name" : "Holberton school" });
+printjson(result);
