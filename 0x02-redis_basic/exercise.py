@@ -5,8 +5,9 @@ import redis
 import uuid
 from typing import Union
 
+
 class Cache:
-    """ Cache class for a basic caching system 
+    """ Cache class for a basic caching system
         Args:
         data: the data which will be passed as a str, bytes, int or float.
     """
@@ -24,7 +25,7 @@ class Cache:
         return key
 
     def get(self, key: str, fn: Optional[Callable] = None) -> Any:
-        """ Fetch the value from Redis using the provided key and 
+        """ Fetch the value from Redis using the provided key and
             return the value converted by fn if provided.
         """
         value = self._redis.get(key)
