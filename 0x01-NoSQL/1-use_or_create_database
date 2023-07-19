@@ -1,3 +1,5 @@
-// A script that creates or uses the database my_db:
+// A script that creates or uses the database 
 db = db.getSiblingDB('my_db');
-print(`switched to db ${db}`);
+print(`switched to db ${db}`)
+
+
