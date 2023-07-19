@@ -1,8 +1,10 @@
-// A script that adds a new attribute to a document in the collection school
-conn = new Mongo();
-db = conn.getDB(db_name);
+// A script that adds a new attribute to a document in the school.
+use my_db
 
-var bulkOp = db.school.initializeUnorderedBulkOp();
-bulkOp.find( { "name" : "Holberton school" } ).update( { $set: { "address" : "972 Mission street" } } );
-var result = bulkOp.execute();
-printjson(result);
+// Update documents with name="Holberton school" and add the "address" attribute
+const updateResult = db.school.updateMany(
+  { name: "Holberton school" },
+  { $set: { address: "972 Mission street" } }
+);
+
+printjson(updateResult);
