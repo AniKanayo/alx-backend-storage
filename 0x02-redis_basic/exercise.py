@@ -1,36 +1,47 @@
 #!/usr/bin/env python3
+"""
+This module extends the caching capabilities of our previous design by
+keeping a history of all inputs and their corresponding outputs.
+"""
 
 import redis
 import uuid
-from typing import Callable, Optional, Union
+from typing import Callable, Optional, Union, Any
 from functools import wraps
 
 
-def count_calls(method: Callable) -> Callable:
-    """decorator to count the number of times a method is called"""
+def call_history(method: Callable) -> Callable:
+    """
+    Decorator to store the history of inputs and outputs for a
+    particular function.
+    """
     key = method.__qualname__
 
     @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        """Increment key value every time a method is called"""
-        self._redis.incr(key)
-        return method(self, *args, **kwargs)
-
+    def wrapper(self, *args: Any, **kwargs: Any) -> Any:
+        """
+        Store the input and output data to redis
+        """
+        method_name = method.__qualname__
+        inputs = str(args)
+        self._redis.rpush(f"{method_name}:inputs", inputs)
+        result = method(self, *args, **kwargs)
+        self._redis.rpush(f"{method_name}:outputs", str(result))
+        return result
     return wrapper
 
 
 class Cache:
     """
-    Cache class for a basic caching system
-    Args:
-        data: the data which will be passed as a str, bytes, int or float.
+    Cache class for a caching system with input/output history
     """
+
     def __init__(self):
-        """ Instantiate a redis object and applies a flushdb() """
+        """ Initialize a redis object and applies a flushdb() """
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store the input data in Redis using a random key and return the key
