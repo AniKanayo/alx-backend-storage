@@ -82,16 +82,3 @@ class Cache:
         The get_int method gets the redis value as an integer
         """
         return self.get(key, fn=int)
-
-    def replay(self, fn: Callable):
-        """
-        Display the history of calls of a particular function.
-        """
-        inputs_key = f"{fn.__qualname__}:inputs"
-        outputs_key = f"{fn.__qualname__}:outputs"
-        inputs_list = self._redis.lrange(inputs_key, 0, -1)
-        outputs_list = self._redis.lrange(outputs_key, 0, -1)
-        print(f"{fn.__qualname__} was called {len(inputs_list)} times:")
-        for inp, out in zip(inputs_list, outputs_list):
-            print(f"{fn.__qualname__}(*{inp.decode('utf-8')}) -> \"
-                  "{out.decode('utf-8')}")
